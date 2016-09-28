@@ -25,10 +25,10 @@ object DftbPlusParser extends SimpleExternalParserGenerator(
   mainFileRe = """ Fermi distribution function
 
 """.r,
-  cmd = Seq(DefaultPythonInterpreter.pythonExe(), "${envDir}/parsers/dftb-plus/parser/parser-dftb-plus/dftb-plus_parser.py",
+  cmd = Seq(DefaultPythonInterpreter.pythonExe(), "${envDir}/parsers/dftb-plus/parser/parser-dftb+/parser_dftb_plus.py",
     "--uri", "${mainFileUri}", "${mainFilePath}"),
   resList = Seq(
-    "parser-dftb+/parser_dftb+.py",
+    "parser-dftb+/parser_dftb_plus.py",
     "parser-dftb+/setup_paths.py",
     "nomad_meta_info/public.nomadmetainfo.json",
     "nomad_meta_info/common.nomadmetainfo.json",
@@ -36,7 +36,7 @@ object DftbPlusParser extends SimpleExternalParserGenerator(
     "nomad_meta_info/dftb_plus.nomadmetainfo.json"
   ) ++ DefaultPythonInterpreter.commonFiles(),
   dirMap = Map(
-    "parser-dftb-plus" -> "parsers/dftb-plus/parser/parser-dftb-plus",
+    "parser-dftb+" -> "parsers/dftb-plus/parser/parser-dftb+",
     "nomad_meta_info" -> "nomad-meta-info/meta_info/nomad_meta_info",
     "python" -> "python-common/common/python/nomadcore"
   ) ++ DefaultPythonInterpreter.commonDirMapping(),
