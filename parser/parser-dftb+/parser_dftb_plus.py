@@ -2,6 +2,7 @@ import setup_paths
 from builtins import object
 from nomadcore.simple_parser import SimpleMatcher as SM, mainFunction
 from nomadcore.local_meta_info import loadJsonFile, InfoKindEl
+from nomadcore.unit_conversion import unit_conversion
 import os, sys, json
 import numpy as np
 
@@ -26,6 +27,16 @@ class dftb_plusContext(object):
         atom_charge = section['x_dftbp_charge']
         if atom_charge is not None:
            backend.addArrayValues('atom_in_molecule_charge', np.asarray(atom_charge))
+
+    def onClose_section_eigenvalues(self, backend, gIndex, section):
+    
+        eigenvalues = section['x_dftbp_eigenvalues_values']
+        occ = section['x_dftbp_eigenvalues_occupation']
+        if eigenvalues is not None:
+            backend.addArrayValues('eigenvalues_values', np.asarray(eigenvalues))
+        if occ is not None:
+            backend.addArrayValues('eigenvalues_occupation', np.asarray(occ))
+
 
 
 # description of the input
@@ -73,7 +84,7 @@ mainFileDescription = SM(
                   sections   = ['section_eigenvalues'],
                   subMatchers = [
                       SM(r"\s*Eigenvalues /H"),
-                      SM(r"\s*(?P<eigenvalues_values__hartree>[+-]?\d+\.\d+)\s*", repeats = True),
+                      SM(r"\s*(?P<x_dftbp_eigenvalues_values__hartree>[+-]?\d+\.\d+)\s*", repeats = True),
                   ],
              ),
                  SM(name = 'eigenvalues_eV',
@@ -82,7 +93,7 @@ mainFileDescription = SM(
                     sections   = ['section_eigenvalues'],
                     subMatchers = [
                         SM(r"\s*Eigenvalues /eV"),
-                        SM(r"\s*(?P<eigenvalues_values>[+-]?\d+\.\d+)\s*", repeats = True),
+                        SM(r"\s*(?P<x_dftbp_eigenvalues_values__eV>[+-]?\d+\.\d+)\s*", repeats = True),
                   ],
              ),
                   SM(name = 'Occupations',
@@ -91,7 +102,7 @@ mainFileDescription = SM(
                      sections   = ['section_eigenvalues'],
                      subMatchers = [
                         SM(r"\s*Fillings"),
-                        SM(r"\s*(?P<eigenvalues_occupation>\d+\.\d+)\s*", repeats = True),
+                        SM(r"\s*(?P<x_dftbp_eigenvalues_occupation>\d+\.\d+)\s*", repeats = True),
                   ],
              ),
                SM(name = 'energies',
