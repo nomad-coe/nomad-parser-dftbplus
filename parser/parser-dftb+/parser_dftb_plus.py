@@ -1,7 +1,32 @@
 import setup_paths
+from builtins import object
 from nomadcore.simple_parser import SimpleMatcher as SM, mainFunction
 from nomadcore.local_meta_info import loadJsonFile, InfoKindEl
 import os, sys, json
+import numpy as np
+
+class dftb_plusContext(object):
+    """ context for dftb_plus parser """
+    
+    def __init__(self):
+        self.parser = None
+
+    def initialize_values(self):
+        """allows to reset values if the same superContext is used to parse different files"""
+        pass
+
+    def startedParsing(self, path, parser):
+        """called when parsing starts"""
+        self.parser = parser
+        # allows to reset values if the same superContext is used to parse different files
+        self.initialize_values()
+
+    def onClose_section_molecule_type(self, backend, gIndex, section):
+        
+        atom_charge = section['x_dftbp_charge']
+        if atom_charge is not None:
+           backend.addArrayValues('atom_in_molecule_charge', np.asarray(atom_charge))
+
 
 # description of the input
 mainFileDescription = SM(
@@ -38,7 +63,7 @@ mainFileDescription = SM(
                   sections   = ['section_molecule_type'],
                   subMatchers = [
                       SM(r"\s*Atom\s*Net charge"),
-                      SM(r"\s*(?P<atom>\d+)\s*(?P<atom_in_molecule_charge>[+-]?\d+\.\d+)\s*", repeats = True),
+                      SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_charge>[+-]?\d+\.\d+)\s*", repeats = True),
                                  #SM(r"\s*")
                   ],
              ),
@@ -106,4 +131,5 @@ metaInfoPath = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__f
 metaInfoEnv, warnings = loadJsonFile(filePath = metaInfoPath, dependencyLoader = None, extraArgsHandling = InfoKindEl.ADD_EXTRA_ARGS, uri = None)
 
 if __name__ == "__main__":
-    mainFunction(mainFileDescription, metaInfoEnv, parserInfo)
+    superContext = dftb_plusContext()
+    mainFunction(mainFileDescription, metaInfoEnv, parserInfo, superContext = superContext)
