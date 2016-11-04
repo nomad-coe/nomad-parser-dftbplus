@@ -37,6 +37,25 @@ class dftb_plusContext(object):
         if occ is not None:
             backend.addArrayValues('eigenvalues_occupation', np.asarray(occ))
 
+    def onClose_section_single_configuration_calculation(self, backend, gIndex, section):
+
+        atom_force = []
+        for i in ['X', 'Y', 'Z']:
+           forces = section['x_dftbp_atom_forces_' + i]
+           if forces is not None:
+              atom_force.append(forces)
+        if atom_force:
+           backend.addArrayValues('atom_forces', np.transpose(np.asarray(atom_force)))
+
+    def onClose_section_system(self, backend, gIndex, section):
+    
+        atom_coord = []
+        for i in ['X', 'Y', 'Z']:
+           coord = section['x_dftbp_atom_positions_' + i]
+           if coord is not None:
+              atom_coord.append(coord)
+        if atom_coord:
+           backend.addArrayValues('atom_positions', np.transpose(np.asarray(atom_coord)))
 
 
 # description of the input
@@ -64,7 +83,7 @@ mainFileDescription = SM(
                   sections   = ['section_system','section_molecule_type'],
                   subMatchers = [
                       SM(r"\s*Coordinates of moved atoms\s*\(?(au)?\)?:"),
-                      SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_atom_positions_X>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Y>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Z>[+-]?\d+\.\d+)\s*", repeats = True),
+                      SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_atom_positions_X__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Y__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Z__bohr>[+-]?\d+\.\d+)\s*", repeats = True),
                  ],
              ),
                SM(name = 'charges',
@@ -74,7 +93,7 @@ mainFileDescription = SM(
                   sections   = ['section_molecule_type'],
                   subMatchers = [
                       SM(r"\s*Atom\s*Net charge"),
-                      SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_charge>[+-]?\d+\.\d+)\s*", repeats = True),
+                      SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_charge__e>[+-]?\d+\.\d+)\s*", repeats = True),
                                  #SM(r"\s*")
                   ],
              ),
@@ -122,9 +141,9 @@ mainFileDescription = SM(
                   sections   = ['section_single_configuration_calculation'],
                   subMatchers = [
                      SM(r"\s*Total Forces*"),
-                     SM(r"\s*(?P<x_dftbp_atom_forces_X>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_Y>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_Z>[+-]?\d+\.\d+E?[+-]?\d+)\s*", repeats = True),
-                     SM(r"\s*Maximal force component:\s*(?P<x_dftbp_force_max>[+-]?\d+\.\d+E?[+-]?\d+)\s*"),
-                     SM(r"\s*Max force for moved atoms::\s*(?P<x_dftbp_force_max>[+-]?\d+\.\d+E?[+-]?\d+)\s*(au)?"),
+                     SM(r"\s*(?P<x_dftbp_atom_forces_X__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_Y__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_Z__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*", repeats = True),
+                     SM(r"\s*Maximal derivative component:\s*(?P<x_dftbp_force_max__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(au)?"),
+                     SM(r"\s*Max force for moved atoms::\s*(?P<x_dftbp_force_max_mov__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(au)?"),
                    ],
 
              ),
