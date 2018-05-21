@@ -32,10 +32,13 @@ class dftb_plusContext(object):
     
         eigenvalues = section['x_dftbp_eigenvalues_values']
         occ = section['x_dftbp_eigenvalues_occupation']
-        if eigenvalues is not None:
-            backend.addArrayValues('eigenvalues_values', np.asarray(eigenvalues))
-        if occ is not None:
-            backend.addArrayValues('eigenvalues_occupation', np.asarray(occ))
+        # DISABLED
+        # WRONG dimensions, (flat), should be [number_of_spin_channels,number_of_eigenvalues_kpoints,number_of_eigenvalues]
+
+        #if eigenvalues is not None:
+        #    backend.addArrayValues('eigenvalues_values', np.asarray(eigenvalues))
+        #if occ is not None:
+        #    backend.addArrayValues('eigenvalues_occupation', np.asarray(occ))
 
     def onClose_section_single_configuration_calculation(self, backend, gIndex, section):
 

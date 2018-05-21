@@ -37,9 +37,9 @@ object DftbPlusParser extends SimpleExternalParserGenerator(
       )) :: Nil
   ),
   mainFileTypes = Seq("text/.*"),
-  mainFileRe = """ Fermi distribution function
-
-""".r,
+  mainFileRe = """^ Fermi distribution function\s*
+\s*
+\s*""".r,
   cmd = Seq(DefaultPythonInterpreter.pythonExe(), "${envDir}/parsers/dftb-plus/parser/parser-dftb+/parser_dftb_plus.py",
     "--uri", "${mainFileUri}", "${mainFilePath}"),
   resList = Seq(
