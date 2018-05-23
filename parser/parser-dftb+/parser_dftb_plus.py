@@ -83,7 +83,7 @@ mainFileDescription = SM(
                SM(name = 'coordinates',
                   startReStr = r"\s*Coordinates of moved atoms\s*\(?(au)?\)?:",
                   #forwardMatch = True,
-                  sections   = ['section_system','section_molecule_type'],
+                  sections   = ['section_system','section_topology','section_molecule_type'],
                   subMatchers = [
                       SM(r"\s*Coordinates of moved atoms\s*\(?(au)?\)?:"),
                       SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_atom_positions_X__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Y__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Z__bohr>[+-]?\d+\.\d+)\s*", repeats = True),
