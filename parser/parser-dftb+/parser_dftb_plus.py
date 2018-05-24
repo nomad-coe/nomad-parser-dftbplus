@@ -88,6 +88,7 @@ mainFileDescription = SM(
            required = True,
            forwardMatch = True,
            sections   = ['section_run'],
+           fixedStartValues={'program_name': 'DFTB+', 'program_basis_set_type': 'LCAO'},
            subMatchers = [
                SM(name = 'header',
                   startReStr = r"\s*Fermi distribution function",
