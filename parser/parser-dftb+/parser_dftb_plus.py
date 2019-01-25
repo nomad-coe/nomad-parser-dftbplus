@@ -62,7 +62,9 @@ class dftb_plusContext(object):
            if forces is not None:
               atom_force.append(forces)
         if atom_force:
+           fId = backend.openSection('section_atom_forces')
            backend.addArrayValues('atom_forces', np.transpose(np.asarray(atom_force)))
+           backend.closeSection('section_atom_forces', fId)
 
     def onClose_section_system(self, backend, gIndex, section):
     
@@ -101,7 +103,7 @@ mainFileDescription = SM(
                   sections   = ['section_system','section_topology','section_molecule_type'],
                   subMatchers = [
                       SM(r"\s*Coordinates of moved atoms\s*\(?(au)?\)?:"),
-                      SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_atom_positions_X__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Y__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_Z__bohr>[+-]?\d+\.\d+)\s*", repeats = True),
+                      SM(r"\s*(?P<atom>\d+)\s*(?P<x_dftbp_atom_positions_x__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_y__bohr>[+-]?\d+\.\d+)\s*(?P<x_dftbp_atom_positions_z__bohr>[+-]?\d+\.\d+)\s*", repeats = True),
                  ],
              ),
                SM(name = 'charges',
@@ -159,7 +161,7 @@ mainFileDescription = SM(
                   sections   = ['section_single_configuration_calculation'],
                   subMatchers = [
                      SM(r"\s*Total Forces*"),
-                     SM(r"\s*(?P<x_dftbp_atom_forces_X__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_Y__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_Z__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*", repeats = True),
+                     SM(r"\s*(?P<x_dftbp_atom_forces_x__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_y__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(?P<x_dftbp_atom_forces_z__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*", repeats = True),
                      SM(r"\s*Maximal derivative component:\s*(?P<x_dftbp_force_max__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(au)?"),
                      SM(r"\s*Max force for moved atoms::\s*(?P<x_dftbp_force_max_mov__forceAu>[+-]?\d+\.\d+E?[+-]?\d+)\s*(au)?"),
                    ],
