@@ -1,0 +1,12 @@
+README.md
+setup.py
+./dftbplusparser/__init__.py
+./dftbplusparser/parser_dftb_plus.py
+./dftbplusparser/setup_paths.py
+./dftbplusparser.egg-info/PKG-INFO
+./dftbplusparser.egg-info/SOURCES.txt
+./dftbplusparser.egg-info/dependency_links.txt
+./dftbplusparser.egg-info/requires.txt
+./dftbplusparser.egg-info/top_level.txt
+./dftbplusparser/metainfo/__init__.py
+./dftbplusparser/metainfo/dftbplus.py
