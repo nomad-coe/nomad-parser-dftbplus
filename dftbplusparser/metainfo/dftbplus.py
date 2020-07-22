@@ -131,23 +131,5 @@ class section_single_configuration_calculation(public.section_single_configurati
         ''',
         a_legacy=LegacyDefinition(name='x_dftbp_force_max_mov'))
 
-    energy_total = Quantity(
-        type=np.dtype(np.float64),
-        shape=[],
-        description='''
-        -
-        ''',
-        categories=[public.energy_value, public.energy_component, public.energy_total_potential],
-        a_legacy=LegacyDefinition(name='energy_total'))
-
-    energy_free = Quantity(
-        type=np.dtype(np.float64),
-        shape=[],
-        description='''
-        -
-        ''',
-        categories=[public.energy_value, public.energy_component, public.energy_total_potential],
-        a_legacy=LegacyDefinition(name='energy_free'))
-
 
 m_package.__init_metainfo__()
