@@ -1,7 +1,0 @@
-code-label: DFTB+
-code-label-style: all in capitals; use + instead of word
-code-url: http://www.dftbplus.org/
-parser-dir-name: dependencies/parsers/dftbplus/
-parser-git-url: https://gitlab.mpcdf.mpg.de/nomad-lab/parser-dftb-plus
-parser-specific: ''
-table-of-files: ''
