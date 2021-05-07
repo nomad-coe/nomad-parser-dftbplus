@@ -16,4 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from .parser_dftb_plus import DFTBPlusParser
+from .dftbplus_parser import DFTBPlusParser
