@@ -36,11 +36,11 @@ def test_basic(parser):
     archive = EntryArchive()
     parser.parse('tests/data/detailed.out', archive, None)
 
-    sec_system = archive.section_run[0].section_system[0]
-    assert np.shape(sec_system.atom_positions) == (114, 3)
-    assert sec_system.atom_positions[78][2].magnitude == approx(-8.56177558e-09)
+    sec_system = archive.run[0].system[0]
+    assert np.shape(sec_system.atoms.positions) == (114, 3)
+    assert sec_system.atoms.positions[78][2].magnitude == approx(-8.56177558e-09)
 
-    sec_scc = archive.section_run[0].section_single_configuration_calculation[0]
-    assert sec_scc.energy_total.magnitude == approx(-9.74752048e-16)
-    assert sec_scc.energy_reference_fermi[0].magnitude == approx(-6.54344613e-19)
-    assert sec_scc.atom_forces[108][1].magnitude == approx(-1.65415666e-12)
+    sec_scc = archive.run[0].calculation[0]
+    assert sec_scc.energy.total.value.magnitude == approx(-9.74752048e-16)
+    assert sec_scc.energy.fermi.magnitude == approx(-6.54344613e-19)
+    assert sec_scc.forces.total.value[108][1].magnitude == approx(-1.65415666e-12)
