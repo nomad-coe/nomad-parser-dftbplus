@@ -22,13 +22,13 @@ from nomad.metainfo import (  # pylint: disable=unused-import
     MSection, MCategory, Category, Package, Quantity, Section, SubSection, SectionProxy,
     Reference
 )
-from nomad.datamodel.metainfo import run
+from nomad.datamodel.metainfo import simulation
 
 
 m_package = Package()
 
 
-class AtomParameters(run.method.AtomParameters):
+class AtomParameters(simulation.method.AtomParameters):
 
     m_def = Section(validate=False, extends_base_section=True)
 
@@ -47,7 +47,7 @@ class AtomParameters(run.method.AtomParameters):
         ''')
 
 
-class System(run.system.System):
+class System(simulation.system.System):
 
     m_def = Section(validate=False, extends_base_section=True)
 
@@ -73,7 +73,7 @@ class System(run.system.System):
         ''')
 
 
-class BandEnergies(run.calculation.BandEnergies):
+class BandEnergies(simulation.calculation.BandEnergies):
 
     m_def = Section(validate=False, extends_base_section=True)
 
@@ -92,7 +92,7 @@ class BandEnergies(run.calculation.BandEnergies):
         ''')
 
 
-class Calculation(run.calculation.Calculation):
+class Calculation(simulation.calculation.Calculation):
 
     m_def = Section(validate=False, extends_base_section=True)
 
