@@ -17,10 +17,10 @@
 # limitations under the License.
 #
 import numpy as np            # pylint: disable=unused-import
-import typing                 # pylint: disable=unused-import
+
 from nomad.metainfo import (  # pylint: disable=unused-import
     MSection, MCategory, Category, Package, Quantity, Section, SubSection, SectionProxy,
-    Reference
+    Reference, JSON
 )
 from nomad.datamodel.metainfo import simulation
 
@@ -129,4 +129,77 @@ class Calculation(simulation.calculation.Calculation):
         shape=[],
         description='''
         -
+        ''')
+
+
+class Energy(simulation.calculation.Energy):
+
+    m_def = Section(validate=False, extends_base_section=True)
+
+    x_dftbp_total_mermin = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+    x_dftbp_band = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+    x_dftbp_ts = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+    x_dftbp_band_free = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+    x_dftbp_band_t0 = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+    x_dftbp_scc = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+    x_dftbp_dispersion = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+    x_dftbp_force_related = SubSection(simulation.calculation.EnergyEntry.m_def)
+
+
+class Method(simulation.method.Method):
+
+    m_def = Section(validate=False, extends_base_section=True)
+
+    x_dftbp_input_parameters = Quantity(
+        type=JSON,
+        shape=[],
+        description='''
+        -
+        ''')
+
+
+class TB(simulation.method.TB):
+
+    m_def = Section(validate=False, extends_base_section=True)
+
+    x_dftbp_n_sk_files = Quantity(
+        type=np.dtype(np.int32),
+        shape=[],
+        description='''
+        ''')
+
+    x_dftbp_sk_files = Quantity(
+        type=str,
+        shape=['x_dftbp_n_sk_files'],
+        description='''
+        ''')
+
+
+class Run(simulation.run.Run):
+
+    m_def = Section(validate=False, extends_base_section=True)
+
+    x_dftbp_input_file = Quantity(
+        type=str,
+        shape=[],
+        description='''
+        ''')
+
+    x_dftbp_processed_input_file = Quantity(
+        type=str,
+        shape=[],
+        description='''
+        ''')
+
+    x_dftbp_parser_version = Quantity(
+        type=str,
+        shape=[],
+        description='''
         ''')
